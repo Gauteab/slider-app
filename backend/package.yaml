@@ -39,7 +39,6 @@ executables:
     - websockets
     - text
     - containers
-    - wuss
 
 tests:
   backend-test:

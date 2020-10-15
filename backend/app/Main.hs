@@ -41,14 +41,6 @@ averageOf path = uncurry (/) . foldlOf path f (0, 0)
   where
     f (sum, count) value = (sum + value, count + 1)
 
-registerClient :: MVar Model -> Connection -> IO Int
-registerClient state connection = do
-  (Model i cs) <- readMVar state
-  let newClient = Client 50 connection
-      newModel = Model (i + 1) (Map.insert i newClient cs)
-  swapMVar state newModel
-  pure i
-
 --- Application
 main :: IO ()
 main = do
@@ -69,6 +61,14 @@ server state pending =
       msg <- WebSockets.receiveData connection
       modifyMVar_ state $ pure . setClientValue (read $ T.unpack msg) clientId
       withMVar state printAverage
+
+registerClient :: MVar Model -> Connection -> IO Int
+registerClient state connection = do
+  (Model i cs) <- readMVar state
+  let newClient = Client 50 connection
+      newModel = Model (i + 1) (Map.insert i newClient cs)
+  swapMVar state newModel
+  pure i
 
 printAverage :: Model -> IO ()
 printAverage serverState = do
