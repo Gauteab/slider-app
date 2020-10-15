@@ -5,7 +5,8 @@ var app = Elm.Main.init({
 
 // Create your WebSocket.
 // var socket = new WebSocket("wss://echo.websocket.org");
-var socket = new WebSocket("ws://localhost:9160");
+// var socket = new WebSocket("ws://localhost:9160");
+var socket = new WebSocket("ws://158.39.201.82:9160");
 
 // When a command goes to the `sendMessage` port, we pass the message
 // along to the WebSocket.

@@ -1,6 +1,7 @@
 
 frontend/index.html
-frontend/elm.js
+frontend/public/main.js
+frontend/backup.html
 
 .idea
 
