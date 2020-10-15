@@ -62,42 +62,21 @@ sliderConfig =
 
 sliderTranslation : Int -> String
 sliderTranslation value =
-    case value // 10 of
+    case value // 20 of
         0 ->
             "Ingenting"
 
         1 ->
-            "Nesten ingenting"
-
-        2 ->
             "Lite"
 
+        2 ->
+            "Noe"
+
         3 ->
-            "Litt"
-
-        4 ->
-            "Noe"
-
-        5 ->
-            "Noe"
-
-        6 ->
-            "En del"
-
-        7 ->
-            "Det meste"
-
-        8 ->
             "Mye"
 
-        9 ->
-            "Ganske mye"
-
-        10 ->
-            "Alt"
-
         _ ->
-            "Feil"
+            "Alt"
 
 
 
