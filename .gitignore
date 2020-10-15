@@ -1,0 +1,43 @@
+
+frontend/index.html
+frontend/elm.js
+
+.idea
+
+# Created by https://www.toptal.com/developers/gitignore/api/elm,haskell
+# Edit at https://www.toptal.com/developers/gitignore?templates=elm,haskell
+
+### Elm ###
+# elm-package generated files
+elm-stuff
+# elm-repl generated files
+repl-temp-*
+
+### Haskell ###
+dist
+dist-*
+cabal-dev
+*.o
+*.hi
+*.hie
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+*.prof
+*.aux
+*.hp
+*.eventlog
+.stack-work/
+cabal.project.local
+cabal.project.local~
+.HTF/
+.ghc.environment.*
+
+# End of https://www.toptal.com/developers/gitignore/api/elm,haskell
+
+
