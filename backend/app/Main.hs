@@ -4,13 +4,16 @@
 module Main where
 
 import Control.Concurrent
+import Control.Exception (catch)
 import Control.Lens
 import Control.Monad (forever)
 import qualified Data.Map.Strict as Map
 import Data.Map.Strict (Map)
+import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
 import qualified Network.WebSockets as WebSockets
 import Network.WebSockets (Connection, ServerApp)
+import System.Environment (getEnv, lookupEnv)
 
 --- Model
 data Client = Client
@@ -44,9 +47,9 @@ averageOf path = uncurry (/) . foldlOf path f (0, 0)
 --- Application
 main :: IO ()
 main = do
-  let address = "127.0.0.1"
-      port = 9160
-      route = "/"
+  address <- lookupEnv "ADDR" <&> Maybe.fromMaybe "localhost"
+  port <- lookupEnv "PORT" <&> maybe 9160 read
+  let route = "/"
   putStrLn $ "Listening on " ++ address ++ ":" ++ show port ++ route
   state <- newMVar initialModel
   WebSockets.runServer address port $ server state
