@@ -60,6 +60,46 @@ sliderConfig =
     }
 
 
+sliderTranslation : Int -> String
+sliderTranslation value =
+    case value // 10 of
+        0 ->
+            "Ingenting"
+
+        1 ->
+            "Nesten ingenting"
+
+        2 ->
+            "Lite"
+
+        3 ->
+            "Litt"
+
+        4 ->
+            "Noe"
+
+        5 ->
+            "Noe"
+
+        6 ->
+            "En del"
+
+        7 ->
+            "Det meste"
+
+        8 ->
+            "Mye"
+
+        9 ->
+            "Ganske mye"
+
+        10 ->
+            "Alt"
+
+        _ ->
+            "Feil"
+
+
 
 -- UPDATE
 
@@ -162,11 +202,11 @@ view model =
                 [ Font.typeface "Roboto", Font.sansSerif ]
             ]
             [ column [ width fill, height (fillPortion 3), padding 20, spaceEvenly ]
-                [ el [ centerX, Font.size 26, Font.semiBold ] <|
+                [ el [ centerX, Font.size 32 ] <|
                     text "Gaute sin slider-app!"
                 , column [ centerX, spacing 15 ]
                     [ el [ centerX, Font.size 24 ] <| text "Jeg forstår"
-                    , el [ centerX, Font.bold, Font.size 26 ] <| text <| (String.fromInt <| round model.sliderValue) ++ "%"
+                    , el [ centerX, Font.bold, Font.size 26 ] <| text <| sliderTranslation <| round model.sliderValue
                     ]
                 , slider model
                 ]
