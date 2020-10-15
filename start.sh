@@ -8,7 +8,7 @@ cd frontend
 elm-live src/Main.elm \
 	--no-reload \
 	--port=8000 \
-       	--host="0.0.0.0" \
+    --host="0.0.0.0" \
 	--start-page=src/index.html \
 	-- --output=public/main.js &
 
