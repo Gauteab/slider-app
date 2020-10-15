@@ -2,7 +2,10 @@ port module Main exposing (..)
 
 import Browser
 import Element exposing (..)
-import Element.Input exposing (button, defaultThumb, labelHidden)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
+import Element.Input exposing (button, labelHidden, thumb)
 import Html exposing (Html)
 
 
@@ -52,9 +55,28 @@ sliderConfig =
     , min = 0
     , max = 100
     , value = 50
-    , thumb = defaultThumb
+    , thumb = sliderThumb
     , step = Nothing
     }
+
+
+sliderTranslation : Int -> String
+sliderTranslation value =
+    case value // 20 of
+        0 ->
+            "Ingenting"
+
+        1 ->
+            "Lite"
+
+        2 ->
+            "Noe"
+
+        3 ->
+            "Mye"
+
+        _ ->
+            "Alt"
 
 
 
@@ -97,10 +119,77 @@ subscriptions model =
 -- VIEW
 
 
+sliderThumbSize : number
+sliderThumbSize =
+    50
+
+
+sliderThumb : Element.Input.Thumb
+sliderThumb =
+    thumb
+        [ width (px sliderThumbSize)
+        , height (px sliderThumbSize)
+        , Border.rounded sliderThumbSize
+        , Background.color (rgb255 0 163 255)
+        ]
+
+
+slider : Model -> Element Msg
+slider model =
+    let
+        sliderBackground =
+            el
+                [ width fill
+                , height (px 2)
+                , centerY
+                , Background.color (rgb255 0 0 0)
+                ]
+                none
+    in
+    column
+        [ width fill
+        , centerX
+        , spacing 5
+        ]
+        [ row
+            [ width fill
+            , height (px sliderThumbSize)
+            , behindContent sliderBackground
+            ]
+            [ Element.Input.slider [ height fill ] { sliderConfig | value = model.sliderValue } ]
+        , row
+            [ Font.size 14
+            , width fill
+            , spaceEvenly
+            ]
+            [ text "Forstår ingenting"
+            , text "Forstår alt"
+            ]
+        ]
+
+
 view : Model -> Html Msg
 view model =
-    Element.layout [] <|
-        column [ width <| fillPortion 2, centerX ]
-            [ text ("value: " ++ String.fromFloat model.sliderValue)
-            , Element.Input.slider [] { sliderConfig | value = model.sliderValue }
+    Element.layout
+        []
+    <|
+        column
+            [ width (fill |> maximum 900)
+            , centerX
+            , height fill
+            , Font.family
+                [ Font.typeface "Roboto", Font.sansSerif ]
+            ]
+            [ column [ width fill, height (fillPortion 3), padding 20, spaceEvenly ]
+                [ el [ centerX, Font.size 32 ] <|
+                    text "Gaute sin slider-app!"
+                , column [ centerX, spacing 15 ]
+                    [ el [ centerX, Font.size 24 ] <| text "Jeg forstår"
+                    , el [ centerX, Font.bold, Font.size 26 ] <| text <| sliderTranslation <| round model.sliderValue
+                    ]
+                , slider model
+                ]
+            , column
+                [ height (fillPortion 1) ]
+                []
             ]
