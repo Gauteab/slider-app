@@ -35,8 +35,8 @@ initialModel = Model 0 Map.empty
 
 --- Update
 setClientValue :: Float -> Int -> Model -> Model
-setClientValue newValue cid serverState =
-  serverState & (clients . at cid . _Just . value) .~ newValue
+setClientValue newValue cid model =
+  model & (clients . at cid . _Just . value) .~ newValue
 
 averageValues = averageOf (clients . each . value)
 
@@ -80,6 +80,6 @@ diconnect state clientId = do
   withMVar state printAverage
 
 printAverage :: Model -> IO ()
-printAverage serverState = do
-  let msg = "Average: " ++ show (averageValues serverState)
+printAverage model = do
+  let msg = "Average: " ++ show (averageValues model)
   putStrLn msg
