@@ -4,7 +4,7 @@
 module Main where
 
 import Control.Concurrent
-import Control.Exception (catch)
+import Control.Exception (catch, finally)
 import Control.Lens
 import Control.Monad (forever)
 import qualified Data.Map.Strict as Map
@@ -59,8 +59,8 @@ server state pending =
   forever $ do
     connection <- WebSockets.acceptRequest pending
     clientId <- registerClient state connection
-    print $ "Connected: " ++ show clientId
-    forever $ do
+    putStrLn $ "Connected: " ++ show clientId
+    flip finally (diconnect state clientId) . forever $ do
       msg <- WebSockets.receiveData connection
       modifyMVar_ state $ pure . setClientValue (read $ T.unpack msg) clientId
       withMVar state printAverage
@@ -72,6 +72,12 @@ registerClient state connection = do
       newModel = Model (i + 1) (Map.insert i newClient cs)
   swapMVar state newModel
   pure i
+
+diconnect :: MVar Model -> Int -> IO ()
+diconnect state clientId = do
+  putStrLn $ "Disconnected: " <> show clientId
+  modifyMVar_ state $ pure . \model -> model & clients %~ Map.delete clientId
+  withMVar state printAverage
 
 printAverage :: Model -> IO ()
 printAverage serverState = do
