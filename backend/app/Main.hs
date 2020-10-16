@@ -4,7 +4,7 @@
 module Main where
 
 import Control.Concurrent
-import Control.Exception (catch, finally)
+import Control.Exception (finally)
 import Control.Lens
 import Control.Monad (forever)
 import qualified Data.Map.Strict as Map
@@ -13,7 +13,7 @@ import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
 import qualified Network.WebSockets as WebSockets
 import Network.WebSockets (Connection, ServerApp)
-import System.Environment (getEnv, lookupEnv)
+import System.Environment (lookupEnv)
 
 --- Model
 data Client = Client

@@ -1,11 +1,11 @@
-port module Main exposing (..)
+port module Main exposing (main)
 
 import Browser
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Element.Input exposing (button, labelHidden, thumb)
+import Element.Input exposing (labelHidden, thumb)
 import Html exposing (Html)
 
 
@@ -13,6 +13,7 @@ import Html exposing (Html)
 -- MAIN
 
 
+main : Program () Model Msg
 main =
     Browser.element
         { init = init
@@ -62,24 +63,21 @@ sliderConfig =
 
 sliderTranslation : Int -> String
 sliderTranslation value =
-    case value // 20 of
-        0 ->
-            "Ingenting"
-
-        1 ->
-            "Lite"
-
-        2 ->
-            "Noe"
-
-        3 ->
-            "Mye"
-
-        _ ->
-            "Alt"
+    String.fromInt value ++ "%"
 
 
 
+-- case value // 20 of
+--     0 ->
+--         "Ingenting"
+--     1 ->
+--         "Lite"
+--     2 ->
+--         "Noe"
+--     3 ->
+--         "Mye"
+--     _ ->
+--         "Alt"
 -- UPDATE
 
 
@@ -142,9 +140,9 @@ slider model =
                 [ width fill
                 , height (px 2)
                 , centerY
-                , Background.color (rgb255 0 0 0)
+                , paddingXY (sliderThumbSize // 2) 0
                 ]
-                none
+                (el [ height fill, width fill, Background.color (rgb255 0 0 0) ] none)
     in
     column
         [ width fill
@@ -161,6 +159,7 @@ slider model =
             [ Font.size 14
             , width fill
             , spaceEvenly
+            , paddingXY (sliderThumbSize // 2) 0
             ]
             [ text "Forstår ingenting"
             , text "Forstår alt"
@@ -170,19 +169,16 @@ slider model =
 
 view : Model -> Html Msg
 view model =
-    Element.layout
-        []
-    <|
+    Element.layout [] <|
         column
             [ width (fill |> maximum 900)
             , centerX
             , height fill
-            , Font.family
-                [ Font.typeface "Roboto", Font.sansSerif ]
+            , Font.family [ Font.typeface "Roboto", Font.sansSerif ]
             ]
             [ column [ width fill, height (fillPortion 3), padding 20, spaceEvenly ]
                 [ el [ centerX, Font.size 32 ] <|
-                    text "Gaute sin slider-app!"
+                    text "Hvor mye forstår du?"
                 , column [ centerX, spacing 15 ]
                     [ el [ centerX, Font.size 24 ] <| text "Jeg forstår"
                     , el [ centerX, Font.bold, Font.size 26 ] <| text <| sliderTranslation <| round model.sliderValue
