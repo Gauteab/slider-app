@@ -63,7 +63,15 @@ sliderConfig =
 
 sliderTranslation : Int -> String
 sliderTranslation value =
-    String.fromInt value ++ "%"
+    case value of
+        100 ->
+            "Alt"
+
+        0 ->
+            "Ingenting"
+
+        _ ->
+            String.fromInt value ++ "%"
 
 
 
