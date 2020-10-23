@@ -17,7 +17,7 @@ run server: `stack run`
 
 ## Frontend
 
-start live reload:
-```
-elm-live src/Main.elm --start-page=src/index.html -- --output=elm.js
+start live reload: 
+```bash
+elm-live src/Main.elm --start-page=src/index.html -- --output=main.js
 ```

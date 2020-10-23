@@ -10,7 +10,7 @@ elm-live src/Main.elm \
 	--port=8000 \
     --host="0.0.0.0" \
 	--start-page=src/index.html \
-	-- --output=public/main.js &
+	-- --output=main.js &
 
 # Start backend
 cd ../backend
