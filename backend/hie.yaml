@@ -1,0 +1,13 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "lib:backend"
+
+    - path: "app/Main.hs"
+      component: "backend:exe:backend-exe"
+
+    - path: "app/Paths_backend.hs"
+      component: "backend:exe:backend-exe"
+
+    - path: "test"
+      component: "backend:test:backend-test"
