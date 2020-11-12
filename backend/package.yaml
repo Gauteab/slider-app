@@ -33,12 +33,14 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -XNoImplicitPrelude
     dependencies:
     - backend
     - lens
     - websockets
     - text
     - containers
+    - relude
 
 tests:
   backend-test:
