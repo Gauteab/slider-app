@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 17da85672d6ac916249092eb3621559af243d5c677bde9a868d1b2b711b0d9a2
+-- hash: 925262930a0941f82f5b819d885a378681a6edd22d07759c01d6623088ae3533
 
 name:           backend
 version:        0.1.0.0
@@ -42,12 +42,13 @@ executable backend-exe
       Paths_backend
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -XNoImplicitPrelude
   build-depends:
       backend
     , base >=4.7 && <5
     , containers
     , lens
+    , relude
     , text
     , websockets
   default-language: Haskell2010

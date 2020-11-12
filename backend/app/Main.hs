@@ -3,17 +3,20 @@
 
 module Main where
 
-import Control.Concurrent
+import Relude
+
+-- import Control.Concurrent
 import Control.Exception (finally)
 import Control.Lens
-import Control.Monad (forever)
+-- import Control.Monad (forever)
 import qualified Data.Map.Strict as Map
-import Data.Map.Strict (Map)
-import qualified Data.Maybe as Maybe
+-- import Data.Map.Strict (Map)
+-- import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
 import qualified Network.WebSockets as WebSockets
 import Network.WebSockets (Connection, ServerApp)
 import System.Environment (lookupEnv)
+import Control.Concurrent (withMVar, modifyMVar_)
 
 --- Model
 data Client = Client
@@ -47,8 +50,9 @@ averageOf path = uncurry (/) . foldlOf path f (0, 0)
 --- Application
 main :: IO ()
 main = do
-  address <- lookupEnv "ADDR" <&> Maybe.fromMaybe "localhost"
-  port <- lookupEnv "PORT" <&> maybe 9160 read
+  address <- lookupEnv "ADDR" <&> (?: "localhost")
+  maybePort <- lookupEnv "PORT"
+  let port = maybePort >>= readMaybe ?: 9160
   let route = "/"
   putStrLn $ "Listening on " ++ address ++ ":" ++ show port ++ route
   state <- newMVar initialModel
@@ -62,8 +66,11 @@ server state pending =
     putStrLn $ "Connected: " ++ show clientId
     flip finally (diconnect state clientId) . forever $ do
       msg <- WebSockets.receiveData connection
-      modifyMVar_ state $ pure . setClientValue (read $ T.unpack msg) clientId
-      withMVar state printAverage
+      case readMaybe $ T.unpack msg of
+        Just fl -> do
+          modifyMVar_ state $ pure . setClientValue fl clientId
+          withMVar state printAverage
+        Nothing -> pass
 
 registerClient :: MVar Model -> Connection -> IO Int
 registerClient state connection = do
